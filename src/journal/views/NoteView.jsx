@@ -1,6 +1,7 @@
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import {faFloppyDisk} from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { ImageGallery } from "../components"
 
 export const NoteView = () => {
   return (
@@ -36,7 +37,7 @@ export const NoteView = () => {
         />
       </Grid>
 
-      
+      <ImageGallery />
     </Grid>
   )
 }
