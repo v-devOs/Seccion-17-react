@@ -1,16 +1,16 @@
 import { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink} from 'react-router-dom'
-import { Button, Grid, Link, TextField, Typography } from "@mui/material"
+import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { AuthLayout } from '../layout/AuthLayout'
 import { useForm } from '../../hooks'
-import { checkingAuthentication, startGoogleSignIn } from '../../store/auth/thunks'
+import { checkingAuthentication, startGoogleSignIn, startLoginWithEmmailPassword } from '../../store/auth/thunks'
 
 export const LoginPage = () => {
 
-  const { status } = useSelector( state => state.auth)
+  const { status, errorMessage } = useSelector( state => state.auth)
   const dispatch = useDispatch()
 
   const { email, password, onInputChange } = useForm({
@@ -23,7 +23,8 @@ export const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(checkingAuthentication( email, password ))
+    dispatch( startLoginWithEmmailPassword( email, password ))
+    // dispatch( checkingAuthentication( email, password ) )
     // console.log({ email, password});
   }
 
@@ -62,8 +63,12 @@ export const LoginPage = () => {
 
             <Grid container spacing={ 2 } sx = {{mb: 2, mt: 1}}>
 
+              <Grid item xs={12} sm={12} display={ !!errorMessage? '': 'none'}>
+                <Alert severity='error'>{errorMessage}</Alert>
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <Button 
+                  onClick={onSubmit}
                   disabled={ isAuthenticating }
                   type='submit' 
                   variant="contained" 
