@@ -1,7 +1,4 @@
-// import { async } from "@firebase/util"
-// import { updateProfile } from "firebase/auth"
-// import { FireBaseAuth } from "../../firebase/config"
-import { loginWithEmailPassword, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers"
+import { loginWithEmailPassword, logoutFirebase, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers"
 import { checkingCrendential, login, logout } from "./"
 
 export const checkingAuthentication = ( email, password ) => {
@@ -45,5 +42,14 @@ export const startLoginWithEmmailPassword = ( email, password ) => {
 
     dispatch(login( result ))
     
+  }
+}
+
+export const startLogout =  () => {
+  return async( dispatch ) => {
+
+    await logoutFirebase()
+
+    dispatch(logout({}))
   }
 }

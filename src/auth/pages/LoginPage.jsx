@@ -14,8 +14,8 @@ export const LoginPage = () => {
   const dispatch = useDispatch()
 
   const { email, password, onInputChange } = useForm({
-    email: 'fernando@google.com',
-    password: '123456'
+    email: '',
+    password: ''
   })
 
   const isAuthenticating = useMemo( () => status === 'checking',[status])
@@ -61,7 +61,7 @@ export const LoginPage = () => {
               />
             </Grid>
 
-            <Grid container spacing={ 2 } sx = {{mb: 2, mt: 1}}>
+            <Grid container spacing={ 2 } sx = {{mb: 1, mt: 1}}>
 
               <Grid item xs={12} sm={12} display={ !!errorMessage? '': 'none'}>
                 <Alert severity='error'>{errorMessage}</Alert>
