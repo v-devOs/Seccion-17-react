@@ -2,8 +2,12 @@ import React, { useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Grid, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { faBookmark } from '@fortawesome/free-regular-svg-icons'
+import { useDispatch } from 'react-redux'
+import { setActiveNote } from '../../store/journal'
 
-export const SideBarItem = ({ title = '', body, id }) => {
+export const SideBarItem = ({ title = '', body, id, date, imageUrls = []}) => {
+
+  const dispatch = useDispatch()
 
   const newTitle = useMemo( () => {
     return title.length > 17
@@ -11,9 +15,13 @@ export const SideBarItem = ({ title = '', body, id }) => {
       : title
   }, [ title ])
 
+  const onClickNote = () => {
+    dispatch( setActiveNote({ title, body, id, date, imageUrls}))
+  }
+
   return (
-    <ListItem disablePadding>
-      <ListItemButton>
+    <ListItem disablePadding >
+      <ListItemButton onClick={onClickNote}>
         <ListItemIcon>
           <FontAwesomeIcon icon={ faBookmark }/>
         </ListItemIcon>
