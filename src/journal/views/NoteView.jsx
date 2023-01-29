@@ -1,13 +1,15 @@
+import { useEffect, useMemo } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import {faFloppyDisk} from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ImageGallery } from "../components"
-import { useSelector } from "react-redux"
 import { useForm } from "../../hooks/useForm"
-import { useMemo } from "react"
+import { setActiveNote, startSaveNote } from "../../store/journal"
 
 export const NoteView = () => {
 
+  const dispatch = useDispatch()
   const { active:note} = useSelector( state => state.journal)
 
   const { body, title, date, onInputChange, formState } = useForm(note)
@@ -16,6 +18,14 @@ export const NoteView = () => {
     const newDate = new Date( date );
     return newDate.toUTCString()
   }, [ date ])
+
+  useEffect(() => {
+    dispatch(setActiveNote(formState)) 
+  }, [ formState ])
+  
+  const onSaveNote = () => {
+    dispatch( startSaveNote())
+  }
   
   return (
     <Grid container direction={'row'} justifyContent='space-between' alignItems={'center'} sx={{ mb: 1}}>
@@ -24,7 +34,10 @@ export const NoteView = () => {
       </Grid>
 
       <Grid item>
-        <Button color="primary" sx={{padding: 2}}>
+        <Button 
+          onClick={onSaveNote}
+          color="primary" 
+          sx={{padding: 2}}>
           <FontAwesomeIcon icon={ faFloppyDisk } className='icon-save'/>
           Guardar
         </Button>
