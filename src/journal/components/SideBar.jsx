@@ -1,11 +1,11 @@
-import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
-import { faBookmark } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
+import { SideBarItem } from "./SideBarItem"
 
 export const SideBar = ({ drawerWidth}) => {
 
   const { displayName } = useSelector( state => state.auth )
+  const { notes } = useSelector( state => state.journal )
 
   return (
     <Box
@@ -29,20 +29,8 @@ export const SideBar = ({ drawerWidth}) => {
 
           <List>
             {
-              ['Enero', 'Febrero', 'Marzo', 'Abril'].map( text => (
-                  <ListItem key={text} disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <FontAwesomeIcon icon={ faBookmark }/>
-                      </ListItemIcon>
-
-                      <Grid container>
-                        <ListItemText primary={text}/>
-                        <ListItemText secondary={ 'Aliqua nisi minim magna voluptate aliqua commodo eu et incididunt.' }/>
-                      </Grid>
-
-                    </ListItemButton>
-                  </ListItem>
+              notes.map( note => (
+                  <SideBarItem key={note.id} {...note} />
                 ))
             }
 
