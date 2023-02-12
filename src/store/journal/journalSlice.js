@@ -17,14 +17,15 @@ export const journalSlice = createSlice({
       state.isSaving = false
     },
     setActiveNote: ( state, action ) => {
-      state.active = action.payload
+      state.active = action.payload;
+      state.messageSave = ``
     },
     setNotes: ( state, action ) => {
       state.notes = action.payload
     },
     setSaving: ( state ) => {
       state.isSaving = true;
-      
+      state.messageSave = ``
     },
     updateNote: ( state, { payload } ) => {
       state.isSaving = false;
@@ -33,6 +34,9 @@ export const journalSlice = createSlice({
         ? note = payload
         : note
       })
+
+      state.messageSave = `${ payload.title }, actualizada correctamente`
+
     },
     deleteNoteById: ( state, action ) => {
     
