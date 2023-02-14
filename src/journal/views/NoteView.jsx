@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { Button, Grid, IconButton, TextField, Typography } from "@mui/material"
 import {faFloppyDisk} from '@fortawesome/free-regular-svg-icons'
+import {faUpload} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ImageGallery } from "../components"
 import { useForm } from "../../hooks/useForm"
@@ -21,6 +22,8 @@ export const NoteView = () => {
     return newDate.toUTCString()
   }, [ date ])
 
+  const fileInputRef = useRef()
+
   useEffect(() => {
     dispatch(setActiveNote(formState)) 
   }, [ formState ]);
@@ -35,12 +38,29 @@ export const NoteView = () => {
   const onSaveNote = () => {
     dispatch( startSaveNote() )
   }
+
+  const onFileInputChnage = ({ target }) => {
+    if( target.files === 0 ) return
+
+    //dispatch( startUploadingFiles())
+  }
   
   return (
     <Grid container direction={'row'} justifyContent='space-between' alignItems={'center'} sx={{ mb: 1}}>
       <Grid item>
         <Typography fontSize={30} fontWeight='ligth'>{dateString}</Typography>
       </Grid>
+
+      <input 
+        type={"file"} 
+        multiple 
+        style={{ display: 'none' }}
+        ref={fileInputRef}
+      />
+
+      <IconButton color="primary" disabled={isSaving} onClick={() => fileInputRef.current.click()}>
+        <FontAwesomeIcon icon={faUpload}/>
+      </IconButton>
 
       <Grid item>
         <Button 
